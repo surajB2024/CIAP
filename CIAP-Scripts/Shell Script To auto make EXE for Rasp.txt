@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Define variables
+EXTRACT_DIR="/path/to/extract/"
+SCRIPT_NAME="your_script_name.py"
+DESKTOP_NAME="YourAppName"
+ICON_PATH="/path/to/icon.png"  # Optional
+
+# Step 3: Package the application
+cd $EXTRACT_DIR
+echo "Packaging the application..."
+pyinstaller --onefile $SCRIPT_NAME
+
+# Step 4: Move executable to /usr/local/bin
+echo "Making the executable accessible..."
+sudo mv dist/$SCRIPT_NAME /usr/local/bin/
+sudo chmod +x /usr/local/bin/$SCRIPT_NAME
+
+# Step 5: Create a desktop shortcut
+echo "Creating desktop shortcut..."
+DESKTOP_FILE="$HOME/.local/share/applications/${DESKTOP_NAME}.desktop"
+echo "[Desktop Entry]" > $DESKTOP_FILE
+echo "Name=$DESKTOP_NAME" >> $DESKTOP_FILE
+echo "Exec=/usr/local/bin/$SCRIPT_NAME" >> $DESKTOP_FILE
+echo "Type=Application" >> $DESKTOP_FILE
+echo "Terminal=false" >> $DESKTOP_FILE
+echo "Icon=$ICON_PATH" >> $DESKTOP_FILE  # Optional
+chmod +x $DESKTOP_FILE
+
+echo "Packaging complete! You can run your application from the terminal or desktop."

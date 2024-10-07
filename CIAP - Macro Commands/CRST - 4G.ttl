@@ -1,0 +1,3 @@
+send '*SET#CRST#1#'
+pause 30
+send '*SET#CRST#1#'
